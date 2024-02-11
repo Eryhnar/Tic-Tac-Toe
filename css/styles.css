@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+h1{
+    text-align: center;
+    padding: 0, 1em;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    width: 60em;
+    min-height: 80vh;
+    /* max-width: 1200px; */
+    margin-inline: auto;
+    /* padding: 0 20px; */
+    background-color: brown;
+}
+
+#game-board{
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1em;
+    padding: 1em;
+    background-color: #483394;
+    /* border-radius: 10px; */
+}
+
+.cell{
+    /* width: auto; */
+    background-color: aliceblue;
+}
