@@ -6,7 +6,6 @@
 
 body{
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     min-height: 100vh;
     min-width: 100vw;
@@ -23,10 +22,46 @@ h1{
     max-width: 90%;
     width: 60em;
     min-height: 80vh;
-    /* max-width: 1200px; */
     margin-inline: auto;
-    /* padding: 0 20px; */
     background-color: brown;
+}
+
+#selection-screen{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    background-color: aqua;
+}
+
+#piece-selection-area{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: orangered;
+}
+
+#player-num-selection-area{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: yellow;
+
+}
+
+.choice-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1em;
+    background-color: green;
+}
+
+.player-number-choice, .piece-choice{
+    padding: 1em;
+    background-color: white;
 }
 
 #game-board{
@@ -37,10 +72,17 @@ h1{
     gap: 1em;
     padding: 1em;
     background-color: #483394;
-    /* border-radius: 10px; */
 }
 
 .cell{
-    /* width: auto; */
     background-color: aliceblue;
+}
+
+.cell:hover{
+    cursor: pointer;
+    background-color: rgb(192, 199, 206);
+}
+
+.hidden{
+    display: none !important;
 }
