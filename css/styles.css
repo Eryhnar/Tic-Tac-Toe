@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+h1{
+    text-align: center;
+    padding: 0, 1em;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    width: 60em;
+    min-height: 80vh;
+    margin-inline: auto;
+    background-color: brown;
+}
+
+#selection-screen{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1em;
+    background-color: aqua;
+}
+
+#piece-selection-area{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: orangered;
+}
+
+#player-num-selection-area{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: yellow;
+
+}
+
+.choice-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1em;
+    background-color: green;
+}
+
+.player-number-choice, .piece-choice{
+    padding: 1em;
+    background-color: white;
+}
+
+#game-board{
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1em;
+    padding: 1em;
+    background-color: #483394;
+}
+
+#game-over-screen{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    background-color: purple;
+    font-size: 1.5em;
+}
+
+.cell{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+}
+
+.cell:hover{
+    cursor: pointer;
+    background-color: rgb(192, 199, 206);
+}
+
+#start-button{
+    padding: 1em;
+    background-color: white;
+    border-radius: 1em;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.selected{
+    background-color: #838282;
+    transform: scale(1.1);
+}
