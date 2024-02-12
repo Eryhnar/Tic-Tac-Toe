@@ -85,7 +85,7 @@ const winPrint = () => {
 }
 
 // reset game
-const resetGame = () => {
+const resetGame = () => { // move to appState
     appState.turn = player1;
     appState.board = [
         ["", "", ""],
@@ -94,6 +94,9 @@ const resetGame = () => {
     ];
     appState.winner = false;
     appState.winnerName = null;
+    cellsArray.map(cell => {cell.innerHTML = ""}); // clear cells
+    console.log(player1.moves);
+    console.log(player2.moves);
 }
 
 // event listeners
@@ -133,9 +136,15 @@ document.getElementById("2-player-game").addEventListener("click", () => {
 document.getElementById("start-button").addEventListener("click", () => {
     start();
 });
+document.getElementById("play-again-button").addEventListener("click", () => {
+    document.getElementById("game-over-screen").classList.add("hidden");
+    document.getElementById("selection-screen").classList.remove("hidden");
+    resetGame();
+});
 
 // creates players and resets game
-const start = () => { // review X and O
+//move to appState
+const start = () => { // review X and O to make it more dynamic?
     if (pieceSelection === "X") {
         player1 = new Player("player1", "X");
         player2 = new Player("player2", "O");
@@ -151,13 +160,3 @@ const start = () => { // review X and O
     document.getElementById("game-board").classList.remove("hidden");
 }
 
-// play game not necessary
-// const play = () => {
-//     while (!appState.winner) {
-//         if (appState.turn === player1) {
-//             player1.makeMove();
-//         } else {
-//             player2.makeMove();
-//         }
-//     }
-// }
