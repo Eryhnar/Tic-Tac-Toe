@@ -26,7 +26,7 @@ h1{
     min-height: 80vh;
     margin-inline: auto;
     /* background-color: rgb(56, 56, 252); */
-    background-color: rgb(21, 117, 117);
+    background-color: rgb(1, 22, 39);
 }
 
 #player-cards-area{
@@ -51,14 +51,15 @@ h1{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: rgb(21, 117, 117);
+    background-color: rgb(1, 22, 39);
 }
 
 #player-num-selection-area{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: yellow;
+    background-color: rgb(1, 22, 39);
+    color: rgb(106, 46, 53);
 
 }
 
@@ -67,7 +68,7 @@ h1{
     flex-direction: row;
     justify-content: space-evenly;
     gap: 1em;
-    background-color: green;
+    /* background-color: green; */
 }
 
 .player-number-choice, .piece-choice{
@@ -114,6 +115,12 @@ h1{
 }
 
 #start-button{
+    padding: 1em;
+    background-color: white;
+    border-radius: 1em;
+}
+
+#play-again-button{
     padding: 1em;
     background-color: white;
     border-radius: 1em;
