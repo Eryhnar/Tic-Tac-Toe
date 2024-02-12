@@ -1,5 +1,7 @@
 let pieceSelection 
 
+import {aiMove} from "./ai.js";
+
 
 const appState = {
     turn: null, //change to player.name
