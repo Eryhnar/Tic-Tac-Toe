@@ -6,11 +6,13 @@ let pieceSelection
 const appState = {
     turn: null, //change to player.name
     playerNumber: null, // update when ai is implemented
-    board: [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ],
+    // board: [ 
+    //     ["", "", ""],
+    //     ["", "", ""],
+    //     ["", "", ""]
+    // ],
+    board: [ "", "", "", "", "", "", "", "", ""],
+    
     winner: false,
     winnerName: null,
     // ai: false,
@@ -25,10 +27,12 @@ const appState = {
             // }
             appState.turn = player2.name;
             if (appState.playerNumber === 1) {
+                console.log("ai turn");
                 player2.makeMove();
             }
         } else {
             appState.turn = player1.name;
+            console.log("player1 turn");
         }
     },
 
@@ -48,7 +52,7 @@ class Player {
     makeMove(cell) {
         if (cell.innerHTML === "") {
             // console.log(cell.id.slice(-1)-1);
-            this.moves.push(parseInt(cell.id.slice(-1)));
+            this.moves.push(parseInt(cell.id.slice(-1))-1);
             cell.innerHTML = this.symbol;
             let index = +cell.id.slice(-1) - 1; // Get the last character of the id and convert it to a number
             // console.log(cell.id);
@@ -72,55 +76,69 @@ class Ai{
         this.moves = [];
     }
 
-    aiCalcMove = () => {
+    aiCalcMove = () => { //does not block moves
         // greedy algorithm
         // check if ai can win
         for (let cond of winCond) {
-            if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && !this.moves.includes(cond[2])) {
+            // console.log(`cond: ${cond}`);
+            if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
+                console.log(`winning move: ${cond[2]}`);
                 return cond[2];
-            } else if (this.moves.includes(cond[0]) && !this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
+            } else if (this.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && this.moves.includes(cond[2])) {
                 return cond[1];
-            } else if (!this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
+            } else if (appState.board[cond[0]] === "" && this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
                 return cond[0];
             }
         }
         // check if player can win
         for (let cond of winCond) {
-            if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && !player1.moves.includes(cond[2])) {
+            // console.log(`cond: ${cond}`);
+            if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
+                console.log(`blocking move: ${cond[2]}`);
                 return cond[2];
-            } else if (player1.moves.includes(cond[0]) && !player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
+            } else if (player1.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && player1.moves.includes(cond[2])) {
                 return cond[1];
-            } else if (!player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
+            } else if (appState.board[cond[0]] === "" && player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
                 return cond[0];
             }
         }
-        // random move from empty cells in board
-        // let emptyCells = [];
-        // for (let i = 0; i < appState.board.length; i++) {
-        //     console.log("checking");
-        //     if (appState.board[i] === "") {
-        //         emptyCells.push(i);
-        //         console.log(emptyCells);
-        //         console.log("hi");
+        // for (let cond of winCond) {
+        //     if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && !this.moves.includes(cond[2])) {
+        //         return cond[2];
+        //     } else if (this.moves.includes(cond[0]) && !this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
+        //         return cond[1];
+        //     } else if (!this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
+        //         return cond[0];
         //     }
         // }
-        let emptyCells = [];
+        // // check if player can win
+        // for (let cond of winCond) {
+        //     if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && !player1.moves.includes(cond[2])) {
+        //         return cond[2];
+        //     } else if (player1.moves.includes(cond[0]) && !player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
+        //         return cond[1];
+        //     } else if (!player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
+        //         return cond[0];
+        //     }
+        // }
+        
+
+        //random move
+        const emptyCells = [];
         for (let i = 0; i < appState.board.length; i++) {
-            for (let j = 0; j < appState.board[i].length; j++) {
-                if (appState.board[i][j] === "") {
-                    let index = i * appState.board[i].length + j; // convert [i, j] to a single index
-                    emptyCells.push(index);
-                }
+            if (appState.board[i] === "") {
+                emptyCells.push(i);
             }
         }
+        let temp = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        console.log(`temp: ${temp}`)
+        return temp;
 
-        if (emptyCells.length > 0) { // refactor since there will always be empty cells
-            let randomIndex = Math.floor(Math.random() * emptyCells.length);
-            return emptyCells[randomIndex]; // returns a pair [i, j]
-        } 
-        console.log("hello?");
 
+        
         //not what I expected?
+        // console.log("checking empty cells")
+        // console.log(emptyCells);
         // return emptyCells[Math.floor(Math.random() * emptyCells.length)]; 
     
     }
@@ -128,10 +146,14 @@ class Ai{
     makeMove() {
         const move = this.aiCalcMove();
         console.log(move);
+        console.log("ai move ^");
+        console.log(`player1 moves: ${player1.moves}`);
+        console.log(`player2 moves: ${this.moves}`);
         appState.board[move] = this.symbol;
+        console.log(appState.board);
         this.moves.push(move);
         // console.log(cellsArray);
-        console.log(cellsArray[move]);
+        // console.log(`${cellsArray[move]} cell`);
         cellsArray[move].innerHTML = this.symbol;
         checkWin(this);
         appState.changeTurn();
@@ -139,8 +161,9 @@ class Ai{
 
 }
 
-const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
-// check for winner  || move to appState?
+// const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
+const winCond = [[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]];
+// check for winner  || move to appState? || AI wins sometimes when it shouldn't
 const checkWin = (player) => { //expects player object
     // const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
     for (let cond of winCond) {
@@ -174,11 +197,12 @@ const winPrint = () => {
 // reset game
 const resetGame = () => { // move to appState
     appState.turn = player1;
-    appState.board = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ];
+    // appState.board = [
+    //     ["", "", ""],
+    //     ["", "", ""],
+    //     ["", "", ""]
+    // ];
+    appState.board = [ "", "", "", "", "", "", "", "", ""];
     appState.winner = false;
     appState.winnerName = null;
     cellsArray.map(cell => {cell.innerHTML = ""}); // clear cells
