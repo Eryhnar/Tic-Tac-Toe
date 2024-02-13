@@ -1,23 +1,38 @@
 let pieceSelection 
 
+// import {aiMove} from "./ai.js";
+
 
 const appState = {
     turn: null, //change to player.name
-    playerNumber: 2, // update when ai is implemented
-    board: [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ],
+    playerNumber: null, // update when ai is implemented
+    // board: [ 
+    //     ["", "", ""],
+    //     ["", "", ""],
+    //     ["", "", ""]
+    // ],
+    board: [ "", "", "", "", "", "", "", "", ""],
+    
     winner: false,
     winnerName: null,
+    // ai: false,
 
     // change turn
     changeTurn: () => {
         if (appState.turn === player1.name) {
+            // if (appState.ai === false) {
+            //     appState.turn = player2.name;
+            // } else {
+            //     appState.turn = "AI";
+            // }
             appState.turn = player2.name;
+            if (appState.playerNumber === 1) {
+                console.log("ai turn");
+                player2.makeMove();
+            }
         } else {
             appState.turn = player1.name;
+            console.log("player1 turn");
         }
     },
 
@@ -36,26 +51,106 @@ class Player {
     // make a move
     makeMove(cell) {
         if (cell.innerHTML === "") {
-            console.log(cell.id.slice(-1)-1);
-            this.moves.push(parseInt(cell.id.slice(-1)));
+            // console.log(cell.id.slice(-1)-1);
+            this.moves.push(parseInt(cell.id.slice(-1))-1);
             cell.innerHTML = this.symbol;
             let index = +cell.id.slice(-1) - 1; // Get the last character of the id and convert it to a number
             // console.log(cell.id);
             // console.log(index);
             appState.board[index] = this.symbol; // Use the index to update the appState.board array
-            console.log(appState.board);
+            // console.log(appState.board);
             checkWin(this);
             appState.changeTurn();
-            console.log(this.moves);
+            // console.log(this.moves);
             // console.log(appState.turn);
             // console.log(player1.name);
         }
     }  
 }
 
-// check for winner
+// ai class
+class Ai{
+    constructor(name, symbol) {
+        this.name = name;
+        this.symbol = symbol;
+        this.moves = [];
+    }
+
+    aiCalcMove = () => { //does not block moves
+        // greedy algorithm
+        // check if ai can win
+        // if (appState.winner === false) {
+        // }
+        for (let cond of winCond) {
+            // console.log(`cond: ${cond}`);
+            if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
+                console.log(`winning move: ${cond[2]}`);
+                return cond[2];
+            } else if (this.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && this.moves.includes(cond[2])) {
+                return cond[1];
+            } else if (appState.board[cond[0]] === "" && this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
+                return cond[0];
+            }
+        }
+        // check if player can win
+        for (let cond of winCond) {
+            // console.log(`cond: ${cond}`);
+            if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
+                console.log(`blocking move: ${cond[2]}`);
+                return cond[2];
+            } else if (player1.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && player1.moves.includes(cond[2])) {
+                return cond[1];
+            } else if (appState.board[cond[0]] === "" && player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
+                return cond[0];
+            }
+        }
+       
+        
+
+        //random move
+        const emptyCells = [];
+        for (let i = 0; i < appState.board.length; i++) {
+            if (appState.board[i] === "") {
+                emptyCells.push(i);
+            }
+        }
+        let temp = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        console.log(`temp: ${temp}`)
+        return temp;
+        
+
+
+        
+       
+    
+    }
+
+    makeMove() {
+        if (appState.winner === false) {
+
+            const move = this.aiCalcMove();
+            console.log(move);
+            console.log("ai move ^");
+            console.log(`player1 moves: ${player1.moves}`);
+            console.log(`player2 moves: ${this.moves}`);
+            appState.board[move] = this.symbol;
+            console.log(appState.board);
+            this.moves.push(move);
+            // console.log(cellsArray);
+            // console.log(`${cellsArray[move]} cell`);
+            cellsArray[move].innerHTML = this.symbol;
+            checkWin(this);
+            appState.changeTurn();
+        }
+    }
+
+}
+
+// const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
+const winCond = [[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6],[0,3,6],[1,4,7],[2,5,8]];
+// check for winner  || move to appState? || AI wins sometimes when it shouldn't
 const checkWin = (player) => { //expects player object
-    const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
+    // const winCond = [[1,2,3],[4,5,6],[7,8,9],[1,5,9],[3,5,7],[1,4,7],[2,5,8],[3,6,9]];
     for (let cond of winCond) {
         if (player.moves.includes(cond[0]) && player.moves.includes(cond[1]) && player.moves.includes(cond[2])) {
             appState.winner = true; //might be unnecessary
@@ -70,7 +165,7 @@ const checkWin = (player) => { //expects player object
         }
     }   
 }
-// print winner window
+// print winner window || move to appState?
 const winPrint = () => {
     if (appState.winnerName === "Tie") {
         document.getElementById("game-board").classList.add("hidden");
@@ -85,15 +180,19 @@ const winPrint = () => {
 }
 
 // reset game
-const resetGame = () => {
+const resetGame = () => { // move to appState
     appState.turn = player1;
-    appState.board = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ];
+    // appState.board = [
+    //     ["", "", ""],
+    //     ["", "", ""],
+    //     ["", "", ""]
+    // ];
+    appState.board = [ "", "", "", "", "", "", "", "", ""];
     appState.winner = false;
     appState.winnerName = null;
+    cellsArray.map(cell => {cell.innerHTML = ""}); // clear cells
+    console.log(player1.moves);
+    console.log(player2.moves);
 }
 
 // event listeners
@@ -103,10 +202,10 @@ cellsArray.map(cell => {
     cell.addEventListener("click", () => {
         if (appState.turn === player1.name) {
             player1.makeMove(cell);
-            console.log("player1 turn");
+            // console.log("player1 turn");
         } else {
             player2.makeMove(cell);
-            console.log("player2 turn");
+            // console.log("player2 turn");
         }
     })
 });
@@ -125,24 +224,45 @@ document.getElementById("o-choice").addEventListener("click", () => {
 //     resetGame();
 // });
 document.getElementById("1-player-game").addEventListener("click", () => {
-    // start 1 player game
+    appState.playerNumber = 1;
+    document.getElementById("2-player-game").classList.remove("selected");
+    document.getElementById("1-player-game").classList.add("selected");
 });
 document.getElementById("2-player-game").addEventListener("click", () => {
-    // start 2 player game
+    appState.playerNumber = 2;
+    document.getElementById("1-player-game").classList.remove("selected");
+    document.getElementById("2-player-game").classList.add("selected");
 });
 document.getElementById("start-button").addEventListener("click", () => {
     start();
 });
+document.getElementById("play-again-button").addEventListener("click", () => {
+    document.getElementById("game-over-screen").classList.add("hidden");
+    document.getElementById("selection-screen").classList.remove("hidden");
+    resetGame();
+});
 
 // creates players and resets game
-const start = () => { // review X and O
-    if (pieceSelection === "X") {
-        player1 = new Player("player1", "X");
-        player2 = new Player("player2", "O");
+//move to appState
+const start = () => { // review X and O to make it more dynamic?
+    if (appState.playerNumber === 1) {
+        if (pieceSelection === "X") {
+            player1 = new Player("player1", "X");
+            player2 = new Ai("AI", "O");
+        } else {
+            player1 = new Player("player1", "O");
+            player2 = new Ai("AI", "X");
+        }
     } else {
-        player1 = new Player("player1", "O");
-        player2 = new Player("player2", "X");
+        if (pieceSelection === "X") {
+            player1 = new Player("player1", "X");
+            player2 = new Player("player2", "O");
+        } else {
+            player1 = new Player("player1", "O");
+            player2 = new Player("player2", "X");
+        }        
     }
+    
     // const player1 = new Player("player1", player1-symbol);
     // const player2 = new Player("player2", player2-symbol);
     appState.turn = player1.name;
@@ -151,13 +271,3 @@ const start = () => { // review X and O
     document.getElementById("game-board").classList.remove("hidden");
 }
 
-// play game not necessary
-// const play = () => {
-//     while (!appState.winner) {
-//         if (appState.turn === player1) {
-//             player1.makeMove();
-//         } else {
-//             player2.makeMove();
-//         }
-//     }
-// }

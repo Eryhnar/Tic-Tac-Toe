@@ -19,11 +19,22 @@ h1{
 .container{
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
     max-width: 90%;
     width: 60em;
     min-height: 80vh;
     margin-inline: auto;
-    background-color: brown;
+    /* background-color: rgb(56, 56, 252); */
+    background-color: rgb(1, 22, 39);
+}
+
+#player-cards-area{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-inline: 1em;
+
 }
 
 #selection-screen{
@@ -33,21 +44,22 @@ h1{
     justify-content: space-evenly;
     align-items: center;
     gap: 1em;
-    background-color: aqua;
+    background-color: rgb(71, 173, 173);
 }
 
 #piece-selection-area{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: orangered;
+    background-color: rgb(1, 22, 39);
 }
 
 #player-num-selection-area{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: yellow;
+    background-color: rgb(1, 22, 39);
+    color: rgb(106, 46, 53);
 
 }
 
@@ -56,7 +68,7 @@ h1{
     flex-direction: row;
     justify-content: space-evenly;
     gap: 1em;
-    background-color: green;
+    /* background-color: green; */
 }
 
 .player-number-choice, .piece-choice{
@@ -72,6 +84,7 @@ h1{
     gap: 1em;
     padding: 1em;
     background-color: #483394;
+    place-items: center;
 }
 
 #game-over-screen{
@@ -91,6 +104,9 @@ h1{
     justify-content: center;
     align-items: center;
     font-size: 2em;
+    min-width: clamp(1em, 20cqw, 5em); /* not sure about using this */
+    aspect-ratio: 1/1;
+    max-height: 4em;
 }
 
 .cell:hover{
@@ -99,6 +115,12 @@ h1{
 }
 
 #start-button{
+    padding: 1em;
+    background-color: white;
+    border-radius: 1em;
+}
+
+#play-again-button{
     padding: 1em;
     background-color: white;
     border-radius: 1em;
