@@ -79,6 +79,8 @@ class Ai{
     aiCalcMove = () => { //does not block moves
         // greedy algorithm
         // check if ai can win
+        // if (appState.winner === false) {
+        // }
         for (let cond of winCond) {
             // console.log(`cond: ${cond}`);
             if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
@@ -102,25 +104,7 @@ class Ai{
                 return cond[0];
             }
         }
-        // for (let cond of winCond) {
-        //     if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && !this.moves.includes(cond[2])) {
-        //         return cond[2];
-        //     } else if (this.moves.includes(cond[0]) && !this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
-        //         return cond[1];
-        //     } else if (!this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && this.moves.includes(cond[2])) {
-        //         return cond[0];
-        //     }
-        // }
-        // // check if player can win
-        // for (let cond of winCond) {
-        //     if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && !player1.moves.includes(cond[2])) {
-        //         return cond[2];
-        //     } else if (player1.moves.includes(cond[0]) && !player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
-        //         return cond[1];
-        //     } else if (!player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && player1.moves.includes(cond[2])) {
-        //         return cond[0];
-        //     }
-        // }
+       
         
 
         //random move
@@ -133,30 +117,31 @@ class Ai{
         let temp = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         console.log(`temp: ${temp}`)
         return temp;
+        
 
 
         
-        //not what I expected?
-        // console.log("checking empty cells")
-        // console.log(emptyCells);
-        // return emptyCells[Math.floor(Math.random() * emptyCells.length)]; 
+       
     
     }
 
     makeMove() {
-        const move = this.aiCalcMove();
-        console.log(move);
-        console.log("ai move ^");
-        console.log(`player1 moves: ${player1.moves}`);
-        console.log(`player2 moves: ${this.moves}`);
-        appState.board[move] = this.symbol;
-        console.log(appState.board);
-        this.moves.push(move);
-        // console.log(cellsArray);
-        // console.log(`${cellsArray[move]} cell`);
-        cellsArray[move].innerHTML = this.symbol;
-        checkWin(this);
-        appState.changeTurn();
+        if (appState.winner === false) {
+
+            const move = this.aiCalcMove();
+            console.log(move);
+            console.log("ai move ^");
+            console.log(`player1 moves: ${player1.moves}`);
+            console.log(`player2 moves: ${this.moves}`);
+            appState.board[move] = this.symbol;
+            console.log(appState.board);
+            this.moves.push(move);
+            // console.log(cellsArray);
+            // console.log(`${cellsArray[move]} cell`);
+            cellsArray[move].innerHTML = this.symbol;
+            checkWin(this);
+            appState.changeTurn();
+        }
     }
 
 }
