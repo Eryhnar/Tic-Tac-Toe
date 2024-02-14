@@ -9,6 +9,8 @@ const appState = {
     winner: false,
     winnerName: null,
 
+    difficulty: "medium",
+
     // change turn
     changeTurn: () => {
         if (appState.turn === player1.name) {
@@ -52,9 +54,8 @@ class Ai{
         this.moves = [];
     }
 
-    aiCalcMove = () => { 
-        // greedy algorithm
-        // check if ai can win
+    // check if ai can win
+    checkWin() {
         for (let cond of winCond) {
             // console.log(`cond: ${cond}`);
             if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
@@ -66,7 +67,10 @@ class Ai{
                 return cond[0];
             }
         }
-        // check if player can win
+    }
+
+    // check if player can win
+    checkBlock() {
         for (let cond of winCond) {
             if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
                 // console.log(`blocking move: ${cond[2]}`);
@@ -77,10 +81,10 @@ class Ai{
                 return cond[0];
             }
         }
-       
-        
+    }
 
-        //random move
+    //random move
+    randomMove() {
         const emptyCells = [];
         for (let i = 0; i < appState.board.length; i++) {
             if (appState.board[i] === "") {
@@ -90,6 +94,42 @@ class Ai{
         let temp = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         console.log(`temp: ${temp}`)
         return temp;
+    }
+
+    aiCalcMove = () => { 
+        
+        switch (appState.difficulty) {
+
+            case "easy":
+                if (this.checkWin()) {
+                    return this.checkWin();
+                } else if (this.checkBlock()) {
+                    return this.checkBlock();
+                } else {
+                    return this.randomMove();
+                }
+            break;
+
+            case "medium":
+                if (this.checkWin()) {
+                    return this.checkWin();
+                } else if (this.checkBlock()) {
+                    return this.checkBlock();
+                } else if (player1.moves.length + this.moves.length === 1) {
+                    return 4;
+                } else {
+                    return this.randomMove();
+                }
+            break;
+
+            case "hard":
+                
+            break;
+        }
+    
+
+    
+        
 
     }
 
