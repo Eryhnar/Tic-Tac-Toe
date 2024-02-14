@@ -58,7 +58,7 @@ class Ai{
         for (let cond of winCond) {
             // console.log(`cond: ${cond}`);
             if (this.moves.includes(cond[0]) && this.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
-                console.log(`winning move: ${cond[2]}`);
+                // console.log(`winning move: ${cond[2]}`);
                 return cond[2];
             } else if (this.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && this.moves.includes(cond[2])) {
                 return cond[1];
@@ -69,7 +69,7 @@ class Ai{
         // check if player can win
         for (let cond of winCond) {
             if (player1.moves.includes(cond[0]) && player1.moves.includes(cond[1]) && appState.board[cond[2]] === "") {
-                console.log(`blocking move: ${cond[2]}`);
+                // console.log(`blocking move: ${cond[2]}`);
                 return cond[2];
             } else if (player1.moves.includes(cond[0]) && appState.board[cond[1]]=== "" && player1.moves.includes(cond[2])) {
                 return cond[1];
@@ -123,13 +123,15 @@ const checkWin = (player) => {
             appState.winnerName = player.name; 
             console.log(`${player.name} wins!`); 
             winPrint();
-        } else if (player1.moves.length + player2.moves.length === 9) {
-            appState.winner = true; 
-            appState.winnerName = "Tie"; 
-            console.log("It's a tie!"); 
-            winPrint();
-        }
-    }   
+            return;
+        }   
+    }  
+    if (player1.moves.length + player2.moves.length === 9) {
+        appState.winner = true; 
+        appState.winnerName = "Tie"; 
+        console.log("It's a tie!"); 
+        winPrint();
+    }
 }
 //displays winner screen
 const winPrint = () => {
