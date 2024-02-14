@@ -19,14 +19,12 @@ h1{
 .container{
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
     max-width: 90%;
     width: 60em;
     min-height: 80vh;
     margin-inline: auto;
-    /* background-color: rgb(56, 56, 252); */
-    background-color: rgb(1, 22, 39);
+    background-color: rgb(21, 117, 117);
+    color: rgb(209, 206, 176);
 }
 
 #player-cards-area{
@@ -51,15 +49,14 @@ h1{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: rgb(1, 22, 39);
+    color: rgb(1, 22, 39);
 }
 
 #player-num-selection-area{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    background-color: rgb(1, 22, 39);
-    color: rgb(106, 46, 53);
+    color: rgb(1, 22, 39);
 
 }
 
@@ -68,12 +65,13 @@ h1{
     flex-direction: row;
     justify-content: space-evenly;
     gap: 1em;
-    /* background-color: green; */
 }
 
 .player-number-choice, .piece-choice{
     padding: 1em;
     background-color: white;
+    border-radius: 1em;
+    cursor: pointer;
 }
 
 #game-board{
@@ -83,7 +81,7 @@ h1{
     grid-template-rows: repeat(3, 1fr);
     gap: 1em;
     padding: 1em;
-    background-color: #483394;
+    background-color: rgb(71, 173, 173);
     place-items: center;
 }
 
@@ -94,8 +92,12 @@ h1{
     justify-content: center;
     align-items: center;
     gap: 1em;
-    background-color: purple;
+    background-color: rgb(71, 173, 173);
     font-size: 1.5em;
+}
+
+#game-over-message{
+    color: rgb(1, 22, 39);
 }
 
 .cell{
@@ -104,9 +106,10 @@ h1{
     justify-content: center;
     align-items: center;
     font-size: 2em;
-    min-width: clamp(1em, 20cqw, 5em); /* not sure about using this */
+    min-width: clamp(1em, 20cqw, 5em);
     aspect-ratio: 1/1;
     max-height: 4em;
+    color: rgb(1, 22, 39);
 }
 
 .cell:hover{
@@ -118,12 +121,16 @@ h1{
     padding: 1em;
     background-color: white;
     border-radius: 1em;
+    color: rgb(1, 22, 39);
+    cursor: pointer;
 }
 
 #play-again-button{
     padding: 1em;
     background-color: white;
     border-radius: 1em;
+    color: rgb(1, 22, 39);
+    cursor: pointer;
 }
 
 .hidden{
@@ -134,3 +141,4 @@ h1{
     background-color: #838282;
     transform: scale(1.1);
 }
+
