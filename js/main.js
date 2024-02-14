@@ -101,9 +101,9 @@ class Ai{
         switch (appState.difficulty) {
 
             case "easy":
-                if (this.checkWin()) {
+                if (this.checkWin() !== undefined) {
                     return this.checkWin();
-                } else if (this.checkBlock()) {
+                } else if (this.checkBlock() !== undefined) {
                     return this.checkBlock();
                 } else {
                     return this.randomMove();
@@ -111,11 +111,13 @@ class Ai{
             break;
 
             case "medium":
-                if (this.checkWin()) {
+                if (this.checkWin() !== undefined) {
+                    console.log(`winning move: ${this.checkWin()}`);
                     return this.checkWin();
-                } else if (this.checkBlock()) {
+                } else if (this.checkBlock() !== undefined) {
+                    console.log(`blocking move: ${this.checkBlock()}`);
                     return this.checkBlock();
-                } else if (player1.moves.length + this.moves.length === 1) {
+                } else if (player1.moves.length + this.moves.length === 1 && appState.board[4] === "") {
                     return 4;
                 } else {
                     return this.randomMove();
