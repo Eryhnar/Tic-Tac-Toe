@@ -117,7 +117,7 @@ class Ai{
                 } else if (this.checkBlock() !== undefined) {
                     console.log(`blocking move: ${this.checkBlock()}`);
                     return this.checkBlock();
-                } else if (player1.moves.length + this.moves.length === 1 && appState.board[4] === "") {
+                } else if (player1.moves.length + this.moves.length <= 1 && appState.board[4] === "") {
                     return 4;
                 } else {
                     return this.randomMove();
@@ -125,7 +125,8 @@ class Ai{
             break;
 
             case "hard":
-                
+                // minimax
+               
             break;
         }
     
@@ -213,12 +214,12 @@ cellsArray.map(cell => {
     })
 });
 document.getElementById("x-choice").addEventListener("click", () => {
-    pieceSelection = "X";
+    appState.pieceSelection = "X";
     document.getElementById("o-choice").classList.remove("selected");
     document.getElementById("x-choice").classList.add("selected");
 });
 document.getElementById("o-choice").addEventListener("click", () => {
-    pieceSelection = "O";
+    appState.pieceSelection = "O";
     document.getElementById("x-choice").classList.remove("selected");
     document.getElementById("o-choice").classList.add("selected");
 });
@@ -253,7 +254,7 @@ const start = () => {
             player2 = new Ai("AI", "X");
         }
     } else {
-        if (pieceSelection === "X") {
+        if (appState.pieceSelection === "X") {
             player1 = new Player("player1", "X");
             player2 = new Player("player2", "O");
         } else {
